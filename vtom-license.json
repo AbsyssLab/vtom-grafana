@@ -1,0 +1,904 @@
+{
+    "meta": {
+        "type": "db",
+        "canSave": true,
+        "canEdit": true,
+        "canAdmin": false,
+        "canStar": true,
+        "canDelete": true,
+        "slug": "visual-tom-license-monitoring",
+        "url": "/d/cdjkt41ot65tsf/visual-tom-license-monitoring",
+        "expires": "0001-01-01T00:00:00Z",
+        "created": "2024-05-02T13:08:36Z",
+        "updated": "2024-07-11T10:06:59Z",
+        "updatedBy": "Absyss",
+        "createdBy": "Absyss",
+        "version": 49,
+        "hasAcl": false,
+        "isFolder": false,
+        "folderId": 0,
+        "folderUid": "",
+        "folderTitle": "General",
+        "folderUrl": "",
+        "provisioned": false,
+        "provisionedExternalId": "",
+        "annotationsPermissions": {
+            "dashboard": {
+                "canAdd": true,
+                "canEdit": true,
+                "canDelete": true
+            },
+            "organization": {
+                "canAdd": true,
+                "canEdit": true,
+                "canDelete": true
+            }
+        }
+    },
+    "dashboard": {
+        "annotations": {
+            "list": [
+                {
+                    "builtIn": 1,
+                    "datasource": {
+                        "type": "grafana",
+                        "uid": "-- Grafana --"
+                    },
+                    "enable": true,
+                    "hide": true,
+                    "iconColor": "rgba(0, 211, 255, 1)",
+                    "name": "Annotations & Alerts",
+                    "type": "dashboard"
+                }
+            ]
+        },
+        "description": "Dashboard to monitor Visual TOM license usage",
+        "editable": true,
+        "fiscalYearStartMonth": 0,
+        "graphTooltip": 0,
+        "id": 4,
+        "links": [],
+        "panels": [
+            {
+                "datasource": {
+                    "type": "grafana-postgresql-datasource",
+                    "uid": "bdjtgy9rgn0u8d"
+                },
+                "description": "Red line is \"Allowed avg executions\"",
+                "fieldConfig": {
+                    "defaults": {
+                        "color": {
+                            "mode": "palette-classic"
+                        },
+                        "custom": {
+                            "axisBorderShow": false,
+                            "axisCenteredZero": false,
+                            "axisColorMode": "text",
+                            "axisLabel": "",
+                            "axisPlacement": "auto",
+                            "fillOpacity": 80,
+                            "gradientMode": "hue",
+                            "hideFrom": {
+                                "legend": false,
+                                "tooltip": false,
+                                "viz": false
+                            },
+                            "lineWidth": 1,
+                            "scaleDistribution": {
+                                "type": "linear"
+                            },
+                            "thresholdsStyle": {
+                                "mode": "dashed"
+                            }
+                        },
+                        "fieldMinMax": true,
+                        "mappings": [],
+                        "min": 0,
+                        "thresholds": {
+                            "mode": "absolute",
+                            "steps": [
+                                {
+                                    "color": "green",
+                                    "value": null
+                                },
+                                {
+                                    "color": "#EAB839",
+                                    "value": 80
+                                },
+                                {
+                                    "color": "red",
+                                    "value": 100
+                                }
+                            ]
+                        }
+                    },
+                    "overrides": []
+                },
+                "gridPos": {
+                    "h": 7,
+                    "w": 12,
+                    "x": 0,
+                    "y": 0
+                },
+                "id": 9,
+                "options": {
+                    "barRadius": 0,
+                    "barWidth": 0.95,
+                    "fullHighlight": false,
+                    "groupWidth": 0.7,
+                    "legend": {
+                        "calcs": [],
+                        "displayMode": "table",
+                        "placement": "bottom",
+                        "showLegend": false
+                    },
+                    "orientation": "auto",
+                    "showValue": "never",
+                    "stacking": "none",
+                    "text": {},
+                    "tooltip": {
+                        "maxHeight": 600,
+                        "mode": "single",
+                        "sort": "none"
+                    },
+                    "xTickLabelRotation": -45,
+                    "xTickLabelSpacing": 0
+                },
+                "pluginVersion": "11.1.0-69372",
+                "targets": [
+                    {
+                        "datasource": {
+                            "type": "grafana-postgresql-datasource",
+                            "uid": "ediu5svd8blz4e"
+                        },
+                        "editorMode": "code",
+                        "format": "table",
+                        "rawQuery": true,
+                        "rawSql": "SELECT to_char(vtdate, 'DD-mon') vtdate,CAST(vtinfos -> 'sum' -> 'nb' AS INT) \"# of execs\" FROM vt_license_counter WHERE vtdate >= CURRENT_DATE - INTERVAL '30 days'\r\nORDER BY to_char(vtdate, 'YYYYMMDD') ASC",
+                        "refId": "A",
+                        "sql": {
+                            "columns": [
+                                {
+                                    "parameters": [],
+                                    "type": "function"
+                                }
+                            ],
+                            "groupBy": [
+                                {
+                                    "property": {
+                                        "type": "string"
+                                    },
+                                    "type": "groupBy"
+                                }
+                            ],
+                            "limit": 50
+                        }
+                    },
+                    {
+                        "datasource": {
+                            "type": "grafana-postgresql-datasource",
+                            "uid": "bdjtgy9rgn0u8d"
+                        },
+                        "editorMode": "code",
+                        "format": "table",
+                        "hide": false,
+                        "rawQuery": true,
+                        "rawSql": "SELECT\r\n  vtvalue\r\nFROM\r\n  vt_license_entries\r\nWHERE\r\n  vtkey = 'VT-NB-EXECS'",
+                        "refId": "B",
+                        "sql": {
+                            "columns": [
+                                {
+                                    "parameters": [],
+                                    "type": "function"
+                                }
+                            ],
+                            "groupBy": [
+                                {
+                                    "property": {
+                                        "type": "string"
+                                    },
+                                    "type": "groupBy"
+                                }
+                            ],
+                            "limit": 50
+                        }
+                    }
+                ],
+                "title": "Daily average executions (Last 30 days)",
+                "transformations": [
+                    {
+                        "id": "configFromData",
+                        "options": {
+                            "configRefId": "B",
+                            "mappings": [
+                                {
+                                    "fieldName": "vtvalue",
+                                    "handlerKey": "threshold1"
+                                }
+                            ]
+                        }
+                    }
+                ],
+                "type": "barchart"
+            },
+            {
+                "datasource": {
+                    "type": "grafana-postgresql-datasource",
+                    "uid": "bdjtgy9rgn0u8d"
+                },
+                "fieldConfig": {
+                    "defaults": {
+                        "fieldMinMax": true,
+                        "mappings": [],
+                        "min": 0,
+                        "thresholds": {
+                            "mode": "percentage",
+                            "steps": [
+                                {
+                                    "color": "green",
+                                    "value": null
+                                },
+                                {
+                                    "color": "orange",
+                                    "value": 70
+                                },
+                                {
+                                    "color": "red",
+                                    "value": 90
+                                }
+                            ]
+                        }
+                    },
+                    "overrides": []
+                },
+                "gridPos": {
+                    "h": 7,
+                    "w": 4,
+                    "x": 12,
+                    "y": 0
+                },
+                "id": 2,
+                "options": {
+                    "minVizHeight": 75,
+                    "minVizWidth": 75,
+                    "orientation": "auto",
+                    "reduceOptions": {
+                        "calcs": [
+                            "lastNotNull"
+                        ],
+                        "fields": "/^nbexecs$/",
+                        "values": false
+                    },
+                    "showThresholdLabels": false,
+                    "showThresholdMarkers": true,
+                    "sizing": "auto",
+                    "text": {}
+                },
+                "pluginVersion": "11.0.0",
+                "targets": [
+                    {
+                        "datasource": {
+                            "type": "grafana-postgresql-datasource",
+                            "uid": "ediu5svd8blz4e"
+                        },
+                        "editorMode": "code",
+                        "format": "table",
+                        "rawQuery": true,
+                        "rawSql": "SELECT  (SUM(CAST(vtinfos -> 'sum' -> 'nb' AS INT))/(EXTRACT(DOY FROM CURRENT_DATE)))::numeric(10,0) nbexecs,\r\n        CAST((SELECT vtvalue FROM vt_license_entries WHERE vtkey='VT-NB-EXECS') AS INT) maxexecs\r\nFROM vt_license_counter\r\nWHERE date_part('year', vtdate)=date_part('year', now())",
+                        "refId": "A",
+                        "sql": {
+                            "columns": [
+                                {
+                                    "parameters": [],
+                                    "type": "function"
+                                }
+                            ],
+                            "groupBy": [
+                                {
+                                    "property": {
+                                        "type": "string"
+                                    },
+                                    "type": "groupBy"
+                                }
+                            ],
+                            "limit": 50
+                        }
+                    }
+                ],
+                "title": "Avg daily executions for current year",
+                "transformations": [
+                    {
+                        "id": "configFromData",
+                        "options": {
+                            "applyTo": {
+                                "id": "byType",
+                                "options": "number"
+                            },
+                            "configRefId": "A",
+                            "mappings": [
+                                {
+                                    "fieldName": "maxexecs",
+                                    "handlerKey": "max"
+                                },
+                                {
+                                    "fieldName": "nbexecs",
+                                    "handlerKey": "field.value"
+                                }
+                            ]
+                        }
+                    }
+                ],
+                "type": "gauge"
+            },
+            {
+                "datasource": {
+                    "type": "grafana-postgresql-datasource",
+                    "uid": "bdjtgy9rgn0u8d"
+                },
+                "description": "Monitor the number of Jobs created compared to the license allowance.",
+                "fieldConfig": {
+                    "defaults": {
+                        "fieldMinMax": false,
+                        "mappings": [],
+                        "min": 0,
+                        "thresholds": {
+                            "mode": "percentage",
+                            "steps": [
+                                {
+                                    "color": "green",
+                                    "value": null
+                                },
+                                {
+                                    "color": "orange",
+                                    "value": 70
+                                },
+                                {
+                                    "color": "red",
+                                    "value": 90
+                                }
+                            ]
+                        }
+                    },
+                    "overrides": []
+                },
+                "gridPos": {
+                    "h": 7,
+                    "w": 4,
+                    "x": 16,
+                    "y": 0
+                },
+                "id": 5,
+                "options": {
+                    "minVizHeight": 75,
+                    "minVizWidth": 75,
+                    "orientation": "auto",
+                    "reduceOptions": {
+                        "calcs": [
+                            "lastNotNull"
+                        ],
+                        "fields": "/^nbjobs$/",
+                        "values": false
+                    },
+                    "showThresholdLabels": false,
+                    "showThresholdMarkers": true,
+                    "sizing": "auto",
+                    "text": {}
+                },
+                "pluginVersion": "11.0.0",
+                "targets": [
+                    {
+                        "datasource": {
+                            "type": "grafana-postgresql-datasource",
+                            "uid": "ediu5svd8blz4e"
+                        },
+                        "editorMode": "code",
+                        "format": "table",
+                        "rawQuery": true,
+                        "rawSql": "SELECT tab.nbjobs nbjobs,CAST(vtvalue AS INT) maxjobs FROM (SELECT COUNT(vt_core_jobs) nbjobs FROM vt_core_jobs) tab,vt_license_entries WHERE vtkey = 'VT-JOB'",
+                        "refId": "A",
+                        "sql": {
+                            "columns": [
+                                {
+                                    "parameters": [],
+                                    "type": "function"
+                                }
+                            ],
+                            "groupBy": [
+                                {
+                                    "property": {
+                                        "type": "string"
+                                    },
+                                    "type": "groupBy"
+                                }
+                            ],
+                            "limit": 50
+                        }
+                    }
+                ],
+                "title": "Number of Jobs",
+                "transformations": [
+                    {
+                        "id": "configFromData",
+                        "options": {
+                            "applyTo": {
+                                "id": "byFrameRefID",
+                                "options": "A"
+                            },
+                            "configRefId": "A",
+                            "mappings": [
+                                {
+                                    "fieldName": "nbjobs",
+                                    "handlerKey": "field.value"
+                                },
+                                {
+                                    "fieldName": "maxjobs",
+                                    "handlerKey": "max"
+                                }
+                            ]
+                        }
+                    }
+                ],
+                "type": "gauge"
+            },
+            {
+                "datasource": {
+                    "type": "grafana-postgresql-datasource",
+                    "uid": "bdjtgy9rgn0u8d"
+                },
+                "description": "Monitor the number of Agents used compared to the license allowance.",
+                "fieldConfig": {
+                    "defaults": {
+                        "fieldMinMax": false,
+                        "mappings": [],
+                        "min": 0,
+                        "thresholds": {
+                            "mode": "percentage",
+                            "steps": [
+                                {
+                                    "color": "green",
+                                    "value": null
+                                },
+                                {
+                                    "color": "orange",
+                                    "value": 70
+                                },
+                                {
+                                    "color": "red",
+                                    "value": 90
+                                }
+                            ]
+                        }
+                    },
+                    "overrides": []
+                },
+                "gridPos": {
+                    "h": 7,
+                    "w": 4,
+                    "x": 20,
+                    "y": 0
+                },
+                "id": 4,
+                "options": {
+                    "minVizHeight": 75,
+                    "minVizWidth": 75,
+                    "orientation": "auto",
+                    "reduceOptions": {
+                        "calcs": [
+                            "lastNotNull"
+                        ],
+                        "fields": "/^nbagents$/",
+                        "values": false
+                    },
+                    "showThresholdLabels": false,
+                    "showThresholdMarkers": true,
+                    "sizing": "auto",
+                    "text": {}
+                },
+                "pluginVersion": "11.0.0",
+                "targets": [
+                    {
+                        "datasource": {
+                            "type": "grafana-postgresql-datasource",
+                            "uid": "ediu5svd8blz4e"
+                        },
+                        "editorMode": "code",
+                        "format": "table",
+                        "rawQuery": true,
+                        "rawSql": "SELECT count(*) nbagents,vtvalue maxagents FROM (SELECT vt_core_hosts.vtipv4,vtvalue FROM vt_core_hosts,vt_license_entries WHERE vtbdaemonstatus=16 and vtkey='VT-MACHINE' group by vtipv4,vtvalue) tab group by vtvalue",
+                        "refId": "A",
+                        "sql": {
+                            "columns": [
+                                {
+                                    "parameters": [],
+                                    "type": "function"
+                                }
+                            ],
+                            "groupBy": [
+                                {
+                                    "property": {
+                                        "type": "string"
+                                    },
+                                    "type": "groupBy"
+                                }
+                            ],
+                            "limit": 50
+                        }
+                    }
+                ],
+                "title": "Number of Agents",
+                "transformations": [
+                    {
+                        "id": "configFromData",
+                        "options": {
+                            "applyTo": {
+                                "id": "byType",
+                                "options": "number"
+                            },
+                            "configRefId": "A",
+                            "mappings": [
+                                {
+                                    "fieldName": "nbagents",
+                                    "handlerKey": "field.value"
+                                },
+                                {
+                                    "fieldName": "maxagents",
+                                    "handlerKey": "max"
+                                }
+                            ]
+                        }
+                    }
+                ],
+                "type": "gauge"
+            },
+            {
+                "datasource": {
+                    "type": "grafana-postgresql-datasource",
+                    "uid": "bdjtgy9rgn0u8d"
+                },
+                "description": "",
+                "fieldConfig": {
+                    "defaults": {
+                        "color": {
+                            "mode": "palette-classic"
+                        },
+                        "custom": {
+                            "axisBorderShow": false,
+                            "axisCenteredZero": false,
+                            "axisColorMode": "text",
+                            "axisLabel": "",
+                            "axisPlacement": "auto",
+                            "barAlignment": 0,
+                            "drawStyle": "line",
+                            "fillOpacity": 0,
+                            "gradientMode": "none",
+                            "hideFrom": {
+                                "legend": false,
+                                "tooltip": false,
+                                "viz": false
+                            },
+                            "insertNulls": false,
+                            "lineInterpolation": "linear",
+                            "lineWidth": 1,
+                            "pointSize": 5,
+                            "scaleDistribution": {
+                                "type": "linear"
+                            },
+                            "showPoints": "auto",
+                            "spanNulls": false,
+                            "stacking": {
+                                "group": "A",
+                                "mode": "none"
+                            },
+                            "thresholdsStyle": {
+                                "mode": "off"
+                            }
+                        },
+                        "mappings": [],
+                        "thresholds": {
+                            "mode": "absolute",
+                            "steps": [
+                                {
+                                    "color": "green",
+                                    "value": null
+                                },
+                                {
+                                    "color": "red",
+                                    "value": 80
+                                }
+                            ]
+                        }
+                    },
+                    "overrides": [
+                        {
+                            "matcher": {
+                                "id": "byName",
+                                "options": "vtdate"
+                            },
+                            "properties": [
+                                {
+                                    "id": "custom.axisPlacement",
+                                    "value": "hidden"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "gridPos": {
+                    "h": 8,
+                    "w": 12,
+                    "x": 0,
+                    "y": 7
+                },
+                "id": 10,
+                "options": {
+                    "legend": {
+                        "calcs": [
+                            "max"
+                        ],
+                        "displayMode": "list",
+                        "placement": "right",
+                        "showLegend": true
+                    },
+                    "tooltip": {
+                        "maxHeight": 600,
+                        "mode": "single",
+                        "sort": "none"
+                    }
+                },
+                "pluginVersion": "10.4.2",
+                "targets": [
+                    {
+                        "datasource": {
+                            "type": "grafana-postgresql-datasource",
+                            "uid": "bdjtgy9rgn0u8d"
+                        },
+                        "editorMode": "code",
+                        "format": "table",
+                        "rawQuery": true,
+                        "rawSql": "SELECT EXTRACT(DOY FROM dates.dt) AS vtdate,\r\n\tSUM(CAST((SELECT vtvalue FROM vt_license_entries WHERE vtkey='VT-NB-EXECS') AS INT)) OVER (ORDER BY to_char(dates.dt, 'YYYYMMDD') ASC) AS \"# of execs allowed\"\r\nFROM (\r\n\tSELECT generate_series(DATE_TRUNC('year', CURRENT_DATE), DATE_TRUNC('year', CURRENT_DATE) + INTERVAL '1 year - 1 day', '1 day') AS dt\r\n) AS dates\r\nORDER BY to_char(dates.dt, 'YYYYMMDD') ASC;",
+                        "refId": "GetAllowedExecs",
+                        "sql": {
+                            "columns": [
+                                {
+                                    "parameters": [],
+                                    "type": "function"
+                                }
+                            ],
+                            "groupBy": [
+                                {
+                                    "property": {
+                                        "type": "string"
+                                    },
+                                    "type": "groupBy"
+                                }
+                            ],
+                            "limit": 50
+                        }
+                    },
+                    {
+                        "datasource": {
+                            "type": "grafana-postgresql-datasource",
+                            "uid": "bdjtgy9rgn0u8d"
+                        },
+                        "editorMode": "code",
+                        "format": "table",
+                        "hide": false,
+                        "rawQuery": true,
+                        "rawSql": "SELECT EXTRACT(DOY FROM vtdate) vtdate,\r\n\tSUM(CAST(vtinfos -> 'sum' -> 'nb' AS INT)) OVER (ORDER BY to_char(vtdate, 'YYYYMMDD') ASC) \"# of execs\"\r\nFROM vt_license_counter\r\nWHERE vtdate >= DATE_TRUNC('year', CURRENT_DATE)\r\nORDER BY to_char(vtdate, 'YYYYMMDD') ASC",
+                        "refId": "GetCurrentConsumption",
+                        "sql": {
+                            "columns": [
+                                {
+                                    "parameters": [],
+                                    "type": "function"
+                                }
+                            ],
+                            "groupBy": [
+                                {
+                                    "property": {
+                                        "type": "string"
+                                    },
+                                    "type": "groupBy"
+                                }
+                            ],
+                            "limit": 50
+                        }
+                    },
+                    {
+                        "datasource": {
+                            "type": "grafana-postgresql-datasource",
+                            "uid": "bdjtgy9rgn0u8d"
+                        },
+                        "editorMode": "code",
+                        "format": "table",
+                        "hide": false,
+                        "rawQuery": true,
+                        "rawSql": "SELECT EXTRACT(DOY FROM dates.dt) AS vtdate,\r\n\t(SELECT SUM(CAST(vtinfos -> 'sum' -> 'nb' AS INT)) FROM vt_license_counter\r\n\tWHERE vtdate >= DATE_TRUNC('year', CURRENT_DATE)) + SUM(\r\n\t\tCAST((SELECT (SUM(CAST(vtinfos -> 'sum' -> 'nb' AS INT))/(EXTRACT(DOY FROM CURRENT_DATE)))::numeric(10,0) FROM vt_license_counter \tWHERE vtdate >= DATE_TRUNC('year', CURRENT_DATE)) AS INT)) OVER (ORDER BY to_char(dates.dt, 'YYYYMMDD') ASC) AS \"Trend based on current year\"\r\nFROM (\r\n\tSELECT generate_series( CURRENT_DATE, DATE_TRUNC('year', CURRENT_DATE) + INTERVAL '1 year - 1 day', '1 day') AS dt\r\n) AS dates\r\nORDER BY to_char(dates.dt, 'YYYYMMDD') ASC;",
+                        "refId": "GetTrendTillEndOfYearBasedOnYearlyAVG",
+                        "sql": {
+                            "columns": [
+                                {
+                                    "parameters": [],
+                                    "type": "function"
+                                }
+                            ],
+                            "groupBy": [
+                                {
+                                    "property": {
+                                        "type": "string"
+                                    },
+                                    "type": "groupBy"
+                                }
+                            ],
+                            "limit": 50
+                        }
+                    },
+                    {
+                        "datasource": {
+                            "type": "grafana-postgresql-datasource",
+                            "uid": "bdjtgy9rgn0u8d"
+                        },
+                        "editorMode": "code",
+                        "format": "table",
+                        "hide": false,
+                        "rawQuery": true,
+                        "rawSql": "SELECT EXTRACT(DOY FROM dates.dt) AS vtdate,\r\n\t(SELECT SUM(CAST(vtinfos -> 'sum' -> 'nb' AS INT)) FROM vt_license_counter\r\n\tWHERE vtdate >= DATE_TRUNC('year', CURRENT_DATE)) + SUM(\r\n\t\tCAST((SELECT (SUM(CAST(vtinfos -> 'sum' -> 'nb' AS INT))/30)::numeric(10,0) FROM vt_license_counter \tWHERE vtdate >= CURRENT_DATE - INTERVAL '30 days') AS INT)) OVER (ORDER BY to_char(dates.dt, 'YYYYMMDD') ASC) AS \"Trend based on last 30 days\"\r\nFROM (\r\n\tSELECT generate_series( CURRENT_DATE, DATE_TRUNC('year', CURRENT_DATE) + INTERVAL '1 year - 1 day', '1 day') AS dt\r\n) AS dates\r\nORDER BY to_char(dates.dt, 'YYYYMMDD') ASC;",
+                        "refId": "GetTrendTillEndOfYearBasedOnLast30Days",
+                        "sql": {
+                            "columns": [
+                                {
+                                    "parameters": [],
+                                    "type": "function"
+                                }
+                            ],
+                            "groupBy": [
+                                {
+                                    "property": {
+                                        "type": "string"
+                                    },
+                                    "type": "groupBy"
+                                }
+                            ],
+                            "limit": 50
+                        }
+                    }
+                ],
+                "title": "Trend of executions (current year)",
+                "transformations": [
+                    {
+                        "id": "joinByField",
+                        "options": {
+                            "byField": "vtdate",
+                            "mode": "outer"
+                        }
+                    }
+                ],
+                "type": "trend"
+            },
+            {
+                "datasource": {
+                    "type": "grafana-postgresql-datasource",
+                    "uid": "bdjtgy9rgn0u8d"
+                },
+                "description": "Expiration of Visual TOM license.   \nContact Absyss support if end is close",
+                "fieldConfig": {
+                    "defaults": {
+                        "custom": {
+                            "align": "auto",
+                            "cellOptions": {
+                                "type": "color-background"
+                            },
+                            "inspect": false
+                        },
+                        "mappings": [
+                            {
+                                "options": {
+                                    "pattern": "^(0?[0-9]|1[0-9]|2[0-9]|30) days left.*$",
+                                    "result": {
+                                        "color": "red",
+                                        "index": 0
+                                    }
+                                },
+                                "type": "regex"
+                            },
+                            {
+                                "options": {
+                                    "pattern": "^(\\d{1,2}) days left.*$",
+                                    "result": {
+                                        "color": "orange",
+                                        "index": 1
+                                    }
+                                },
+                                "type": "regex"
+                            }
+                        ],
+                        "thresholds": {
+                            "mode": "absolute",
+                            "steps": [
+                                {
+                                    "color": "green",
+                                    "value": null
+                                }
+                            ]
+                        }
+                    },
+                    "overrides": []
+                },
+                "gridPos": {
+                    "h": 3,
+                    "w": 3,
+                    "x": 12,
+                    "y": 7
+                },
+                "id": 1,
+                "options": {
+                    "cellHeight": "sm",
+                    "footer": {
+                        "countRows": false,
+                        "fields": "",
+                        "reducer": [
+                            "sum"
+                        ],
+                        "show": false
+                    },
+                    "showHeader": false
+                },
+                "pluginVersion": "11.0.0",
+                "targets": [
+                    {
+                        "datasource": {
+                            "type": "grafana-postgresql-datasource",
+                            "uid": "ediu5svd8blz4e"
+                        },
+                        "editorMode": "code",
+                        "format": "table",
+                        "rawQuery": true,
+                        "rawSql": "SELECT vtnbday || ' days left (' || DATE(vtend) || ')'  as \"License\"\r\nFROM vt_license_entries \r\nLIMIT 1",
+                        "refId": "A",
+                        "sql": {
+                            "columns": [
+                                {
+                                    "parameters": [],
+                                    "type": "function"
+                                }
+                            ],
+                            "groupBy": [
+                                {
+                                    "property": {
+                                        "type": "string"
+                                    },
+                                    "type": "groupBy"
+                                }
+                            ],
+                            "limit": 50
+                        }
+                    }
+                ],
+                "title": "License Expiration",
+                "type": "table"
+            }
+        ],
+        "schemaVersion": 39,
+        "tags": [
+            "VTOM",
+            "License",
+            "templates"
+        ],
+        "templating": {
+            "list": []
+        },
+        "time": {
+            "from": "2024-06-20T22:00:00.000Z",
+            "to": "2024-06-21T00:00:00.000Z"
+        },
+        "timeRangeUpdatedDuringEditOrView": false,
+        "timepicker": {
+            "hidden": true
+        },
+        "timezone": "browser",
+        "title": "Visual TOM License monitoring",
+        "uid": "cdjkt41ot65tsf",
+        "version": 49,
+        "weekStart": ""
+    }
+}

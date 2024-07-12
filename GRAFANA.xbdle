@@ -1,0 +1,205 @@
+{
+    "objectClass": "Bundle",
+    "objectVersion": 1.0,
+    "objectDate": "2024.07.05 at 12:30:02",
+    "id": 33,
+    "name": "GRAFANA",
+    "title": "GRAFANA",
+    "comment": "",
+    "datasource": "VTOM",
+    "enable": false,
+    "properties": {
+        "display": {
+            "icon": "fa-folder-open",
+            "color": "#444444",
+            "order": "10"
+        }
+    },
+    "variables": [],
+    "services": [
+        {
+            "objectClass": "Service",
+            "objectVersion": 1.0,
+            "objectDate": "2024.07.05 at 12:30:02",
+            "id": 187,
+            "name": "StartEngine",
+            "title": "Start Engine",
+            "comment": "",
+            "datasource": null,
+            "enable": true,
+            "properties": {
+                "display": {
+                    "hide": false,
+                    "icon": "fa-play",
+                    "color": "#3d85c6",
+                    "illustration": "icon"
+                },
+                "execution": {
+                    "errorMode": "stop"
+                },
+                "requesting": {
+                    "multiinstances": true
+                }
+            },
+            "prerequisites": [],
+            "forms": [
+                {
+                    "type": "text",
+                    "properties": {
+                        "field": "Env",
+                        "label": "Name of the Environment",
+                        "readonly": false,
+                        "mandatory": true
+                    }
+                }
+            ],
+            "actions": [
+                {
+                    "type": "startEngine",
+                    "description": "Start Engine",
+                    "enable": "YES",
+                    "properties": {
+                        "environment": "=#Env"
+                    }
+                }
+            ],
+            "variables": [],
+            "version": {
+                "author": "Absyss",
+                "source": "UserPortal",
+                "timestamp": 1720172368867
+            }
+        },
+        {
+            "objectClass": "Service",
+            "objectVersion": 1.0,
+            "objectDate": "2024.07.05 at 12:30:02",
+            "id": 188,
+            "name": "StartJob",
+            "title": "Start Job",
+            "comment": "",
+            "datasource": null,
+            "enable": true,
+            "properties": {
+                "display": {
+                    "hide": false,
+                    "icon": "fa-play",
+                    "color": "#3d85c6",
+                    "illustration": "icon"
+                },
+                "execution": {
+                    "errorMode": "stop"
+                },
+                "requesting": {
+                    "multiinstances": false
+                }
+            },
+            "prerequisites": [],
+            "forms": [
+                {
+                    "type": "text",
+                    "properties": {
+                        "field": "Job",
+                        "label": "Name of the Job",
+                        "readonly": false,
+                        "mandatory": true
+                    }
+                },
+                {
+                    "type": "text",
+                    "properties": {
+                        "field": "App",
+                        "label": "Name of the Application",
+                        "readonly": false,
+                        "mandatory": true
+                    }
+                },
+                {
+                    "type": "text",
+                    "properties": {
+                        "field": "Env",
+                        "label": "Name of the Environment",
+                        "readonly": false,
+                        "mandatory": true
+                    }
+                }
+            ],
+            "actions": [
+                {
+                    "type": "changeJobStatus",
+                    "description": "Force job to waiting",
+                    "enable": "YES",
+                    "properties": {
+                        "node": "=/#Env/#App/#Job",
+                        "status": "Waiting"
+                    }
+                }
+            ],
+            "variables": [],
+            "version": {
+                "author": "Absyss",
+                "source": "UserPortal",
+                "timestamp": 1720172384542
+            }
+        },
+        {
+            "objectClass": "Service",
+            "objectVersion": 1.0,
+            "objectDate": "2024.07.05 at 12:30:02",
+            "id": 189,
+            "name": "StopEngine",
+            "title": "Stop Engine",
+            "comment": "",
+            "datasource": null,
+            "enable": true,
+            "properties": {
+                "display": {
+                    "hide": false,
+                    "icon": "fa-play",
+                    "color": "#3d85c6",
+                    "illustration": "icon"
+                },
+                "execution": {
+                    "errorMode": "stop"
+                },
+                "requesting": {
+                    "multiinstances": true
+                }
+            },
+            "prerequisites": [],
+            "forms": [
+                {
+                    "type": "text",
+                    "properties": {
+                        "field": "Env",
+                        "label": "Name of the Environment",
+                        "readonly": false,
+                        "mandatory": true
+                    }
+                }
+            ],
+            "actions": [
+                {
+                    "type": "stopEngine",
+                    "description": "Stop an engine",
+                    "enable": "YES",
+                    "properties": {
+                        "environment": "=#Env"
+                    }
+                }
+            ],
+            "variables": [],
+            "version": {
+                "author": "Absyss",
+                "source": "UserPortal",
+                "timestamp": 1720172417666
+            }
+        }
+    ],
+    "rights": [],
+    "version": {
+        "author": "Absyss",
+        "source": "UserPortal",
+        "timestamp": 1720172317063
+    }
+}
